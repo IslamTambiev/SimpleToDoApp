@@ -1,0 +1,10 @@
+@SimpleTODO.Server_HostAddress = http://localhost:5181
+
+GET {{SimpleTODO.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+GET {{SimpleTODO.Server_HostAddress}}/api/Posts/
+Accept: application/json
+
+###

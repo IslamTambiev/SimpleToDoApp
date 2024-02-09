@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleTODO.Server", "SimpleTODO.Server\SimpleTODO.Server.csproj", "{F3CDD45F-E883-4CC0-BDAC-0E261A7EB1B7}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "simpletodo.client", "simpletodo.client\simpletodo.client.esproj", "{A94C69DB-FA01-4D36-B147-A903254E6B1C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F3CDD45F-E883-4CC0-BDAC-0E261A7EB1B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3CDD45F-E883-4CC0-BDAC-0E261A7EB1B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3CDD45F-E883-4CC0-BDAC-0E261A7EB1B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3CDD45F-E883-4CC0-BDAC-0E261A7EB1B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A94C69DB-FA01-4D36-B147-A903254E6B1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A94C69DB-FA01-4D36-B147-A903254E6B1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A94C69DB-FA01-4D36-B147-A903254E6B1C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A94C69DB-FA01-4D36-B147-A903254E6B1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A94C69DB-FA01-4D36-B147-A903254E6B1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A94C69DB-FA01-4D36-B147-A903254E6B1C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {262CA050-C864-48C6-AD51-F55C5CA11155}
+	EndGlobalSection
+EndGlobal
