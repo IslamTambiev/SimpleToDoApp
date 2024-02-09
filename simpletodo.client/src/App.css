@@ -6,7 +6,7 @@
 
 .posts {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     /* align-items: center; */
     text-align: center;
 }
@@ -19,19 +19,37 @@
     max-width: 500px;
 }
 
+.inputPostCreation {
+    width: 90%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #cccccc40;
+    font-size: 16px;
+    margin-bottom: 10px;
+    box-sizing: "border-box"
+}
 
-
+.textareaPostCreation {
+    width: 90%;
+    height: 40px;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    box-sizing: "border-box",
+}
 
 table {
     margin: 0 auto;
 }
 
 tr:nth-child(even) {
-    background: #7d0b0b;
+    background: #353535;
 }
 
 tr:nth-child(odd) {
-    background: #261414;
+    background: #2d2d2d;
 }
 
 th,
