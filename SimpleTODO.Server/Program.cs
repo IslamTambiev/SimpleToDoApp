@@ -1,15 +1,29 @@
+using Microsoft.EntityFrameworkCore;
+using SimpleTODO.DAL;
+using SimpleTODO.DAL.Interfaces;
+using SimpleTODO.DAL.Repositories;
+using SimpleTODO.Domain.Entity;
 using SimpleTODO.Server.Data;
 using SimpleTODO.Server.Services;
 using SimpleTODO.Server.Services.Interfaces;
+using SimpleTODO.Service.Implementations;
+using SimpleTODO.Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("SqliteConnection");
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlite(connectionString);
+});
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IBaseRepository<TaskEntity>, TaskRepository>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 
 builder.Services.AddTransient<IPostsService, PostsService>();
 builder.Services.AddSingleton<MyDataContext>();
