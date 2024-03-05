@@ -1,16 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.MSIdentity.Shared;
+using SimpleTODO.Domain.Enum;
 using SimpleTODO.Domain.ViewModels.Task;
 using SimpleTODO.Service.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace SimpleTODO.Server.Controllers;
 
-[Route("apitodo/[controller]")]
+[Route("api/[controller]")]
 [ApiController]
 public class ToDoController : ControllerBase
 {
     private readonly ITaskService _taskService;
-
     public ToDoController(ITaskService taskService)
     {
         _taskService = taskService;
@@ -26,4 +27,37 @@ public class ToDoController : ControllerBase
         }
         return BadRequest(new { description = response.Description });
     }
+    [HttpPost]
+    [Route("task-handler")]
+    public async Task<IResult> TaskHandler()
+    {
+        var response = await _taskService.GetTasks();
+        return Results.Json(new { data = response.Data });
+    }
+    [HttpGet]
+    [Route("priorities")]
+    public IActionResult GetPriorities()
+    {
+        var priorities = Enum.GetValues(typeof(Priority))
+                                 .Cast<Priority>()
+                                 .Select(p => new
+                                 {
+                                     Value = p,
+                                     Name = GetEnumDisplayName(p)
+                                 })
+                                 .ToList();
+
+        return Ok(priorities);
+    }
+    // Retrieves the display name of the given enum value, if available, by fetching the corresponding display attribute. Returns the display name if available, otherwise returns the string representation of the enum value.
+    private string GetEnumDisplayName(Enum value)
+    {
+        var displayAttribute = value.GetType()
+                                    .GetField(value.ToString())
+                                    .GetCustomAttributes(typeof(DisplayAttribute), false)
+                                    .SingleOrDefault() as DisplayAttribute;
+
+        return displayAttribute?.Name ?? value.ToString();
+    }
+
 }

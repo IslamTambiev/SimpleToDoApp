@@ -7,4 +7,5 @@ namespace SimpleTODO.Service.Interfaces;
 public interface ITaskService
 {
     Task<IBaseResponse<TaskEntity>> CreateTask(CreateTaskViewModel model);
+    Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetTasks();
 }

@@ -1,4 +1,70 @@
-﻿.wheather {
+﻿.todo-form {
+    max-width: 500px;
+    padding: 20px;
+    border: 2px solid #555;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+}
+
+.todo-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.todo-form input[type="text"],
+.todo-form textarea,
+.todo-form select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #555;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.todo-form select {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    color: #bbb;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.todo-form select:hover {
+    background-color: #555;
+}
+
+.todo-form .todo-form-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #bbb;
+    text-align: center;
+    margin: 20px 0;
+    text-transform: uppercase;
+}
+
+.todo-form .todo-title,
+.todo-form .todo-priority,
+.todo-form .todo-description {
+    margin-bottom: 15px;
+}
+
+.todo-form .todo-form-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #bbb;
+}
+
+.todo-form textarea {
+    height: 100px;
+}
+
+.wheather {
     max-width: 100%;
     padding: 2rem;
     text-align: center;

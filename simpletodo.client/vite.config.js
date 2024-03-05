@@ -53,7 +53,11 @@ export default defineConfig({
             '^/api': {
                 target: 'https://localhost:7069/',
                 secure: false
-            }
+            },
+            '^/apiposts': {
+                target: 'https://localhost:7069/',
+                secure: false
+            },
         },
         port: 5173,
         https: {

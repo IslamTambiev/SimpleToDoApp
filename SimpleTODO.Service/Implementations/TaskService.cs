@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using SimpleTODO.DAL.Interfaces;
 using SimpleTODO.Domain.Entity;
 using SimpleTODO.Domain.Enum;
+using SimpleTODO.Domain.Extentions;
 using SimpleTODO.Domain.Response;
 using SimpleTODO.Domain.ViewModels.Task;
 using SimpleTODO.Service.Interfaces;
@@ -25,6 +26,8 @@ public class TaskService : ITaskService
     {
         try
         {
+            model.Vallidate();
+
             _logger.LogInformation($"Запрос на создание задачи - {model.Name}");
 
             var task = await _taskRepository.GetAll()
@@ -60,6 +63,39 @@ public class TaskService : ITaskService
             _logger.LogError(ex, $"[TaskService.Create]: {ex.Message}");
             return new BaseResponse<TaskEntity>()
             {
+                Description = $"{ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
+    public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetTasks()
+    {
+        try
+        {
+            var tasks = await _taskRepository.GetAll()
+                .Select(x => new TaskViewModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    IsDone = x.IsDone == true ? "Выполнено" : "Не выполнено",
+                    Priority = x.Priority.GetDisplayName(),
+                    Created = x.Created.ToLongDateString()
+                })
+                .ToListAsync();
+
+            return new BaseResponse<IEnumerable<TaskViewModel>>()
+            {
+
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"[TaskService.Create]: {ex.Message}");
+            return new BaseResponse<IEnumerable<TaskViewModel>>()
+            {
+                Description = $"{ex.Message}",
                 StatusCode = StatusCode.InternalServerError
             };
         }

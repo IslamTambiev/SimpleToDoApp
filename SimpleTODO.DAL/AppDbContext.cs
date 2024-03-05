@@ -7,8 +7,9 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
+        //Database.EnsureDeleted();
         bool isCreated = Database.EnsureCreated();
-        Console.WriteLine("================================= isCreated: ");
+        Console.Write("INFO DbIsCreated: ");
         Console.WriteLine(isCreated);
     }
     public DbSet<TaskEntity> Tasks { get; set; }

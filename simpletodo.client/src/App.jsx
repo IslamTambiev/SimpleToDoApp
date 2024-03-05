@@ -3,14 +3,17 @@ import {
   BrowserRouter,
   useRoutes,
   Link,
-  Outlet,
-  useParams,
 } from "react-router-dom";
 import Posts from "./components/Posts";
 import Wheather from "./components/Weather";
+import TodoApp from "./components/Todos";
 
 function AppRoutes() {
   const element = useRoutes([
+    {
+      path: "/todos",
+      element: <TodoApp />,
+    },
     {
       path: "/",
       element: <Wheather />,
@@ -28,6 +31,11 @@ function App() {
     <BrowserRouter>
       <nav style={{ margin: 10 }}>
         <ul>
+        <li>
+            <Link to="/todos" style={{ padding: 5 }}>
+              Todos
+            </Link>
+          </li>
           <li>
             <Link to="/" style={{ padding: 5 }}>
               Wheather
