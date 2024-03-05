@@ -27,8 +27,10 @@ public class ToDoController : ControllerBase
         }
         return BadRequest(new { description = response.Description });
     }
-    [HttpPost]
-    [Route("task-handler")]
+
+    // [HttpPost]
+    // [Route("task-handler")]
+    [HttpGet]
     public async Task<IResult> TaskHandler()
     {
         var response = await _taskService.GetTasks();

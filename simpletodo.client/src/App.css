@@ -1,5 +1,5 @@
 ﻿.todo-form {
-    max-width: 500px;
+    max-width: 200px;
     padding: 20px;
     border: 2px solid #555;
     border-radius: 5px;
@@ -106,7 +106,7 @@
     box-sizing: "border-box",
 }
 
-table {
+.weather-table {
     margin: 0 auto;
 }
 

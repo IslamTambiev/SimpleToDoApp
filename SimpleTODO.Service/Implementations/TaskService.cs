@@ -50,6 +50,7 @@ public class TaskService : ITaskService
                 Priority = model.Priority,
                 Created = DateTime.Now,
             };
+            await _taskRepository.Create(task);
 
             _logger.LogInformation($"Задача создана: {task.Name} - {task.Created}");
             return new BaseResponse<TaskEntity>()
@@ -87,7 +88,8 @@ public class TaskService : ITaskService
 
             return new BaseResponse<IEnumerable<TaskViewModel>>()
             {
-
+                Data = tasks,
+                StatusCode = StatusCode.OK
             };
         }
         catch (Exception ex)

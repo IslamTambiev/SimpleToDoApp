@@ -1,52 +1,34 @@
 import React, { useState, useEffect } from "react";
 
 const TodoForm = ({ addTodo }) => {
-  const [todoText, setTodoText] = useState("");
-
   const [priorities, setPriorities] = useState([]);
-  const [selectedPriority, setSelectedPriority] = useState("");
+  const [selectedPriority, setSelectedPriority] = useState("1");
+
+  // Метод для загрузки приоритетов
+  async function fetchPriorities() {
+    const URL = "api/ToDo/priorities";
+    const options = {
+      method: "GET",
+      headers: new Headers(),
+    };
+    try {
+      const response = await fetch(URL, options);
+      if (!response.ok) {
+        throw new Error("Ошибка при загрузке приоритетов");
+      }
+      const data = await response.json();
+      setPriorities(data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 
   useEffect(() => {
-    // Метод для загрузки приоритетов
-    async function fetchPriorities() {
-      const URL = "api/ToDo/priorities";
-      const options = {
-        method: "GET",
-        headers: new Headers(),
-      };
-      try {
-        const response = await fetch(URL, options);
-        if (!response.ok) {
-          throw new Error("Ошибка при загрузке приоритетов");
-        }
-        const data = await response.json();
-        setPriorities(data);
-      } catch (error) {
-        console.error(error.message);
-      }
-    }
-
     fetchPriorities();
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!todoText.trim()) return;
-    addTodo(todoText);
-    setTodoText("");
-  };
-
   return (
     <div class="todo-form">
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={todoText}
-          onChange={(e) => setTodoText(e.target.value)}
-          placeholder="Enter a new todo..."
-        />
-        <button type="submit">Add Todo</button>
-      </form>
       <p class="todo-form-title">Create todo</p>
 
       <div class="todo-title">
@@ -60,7 +42,7 @@ const TodoForm = ({ addTodo }) => {
       </div>
 
       <div class="todo-priority">
-        <p class="todo-form-label">Task priority</p>
+        <p class="todo-form-label">Task complexity</p>
         <select
           id="todo-priority-id"
           class="selectTodoCreation"

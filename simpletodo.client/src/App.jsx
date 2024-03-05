@@ -1,12 +1,8 @@
 import "./App.css";
-import {
-  BrowserRouter,
-  useRoutes,
-  Link,
-} from "react-router-dom";
+import { BrowserRouter, useRoutes, Link } from "react-router-dom";
 import Posts from "./components/Posts";
 import Wheather from "./components/Weather";
-import TodoApp from "./components/Todos";
+import TodoApp from "./components/Todo/Todos";
 
 function AppRoutes() {
   const element = useRoutes([
@@ -31,7 +27,7 @@ function App() {
     <BrowserRouter>
       <nav style={{ margin: 10 }}>
         <ul>
-        <li>
+          <li>
             <Link to="/todos" style={{ padding: 5 }}>
               Todos
             </Link>
