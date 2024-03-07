@@ -2,22 +2,20 @@ import React, { useState, useEffect } from "react";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import TodoTable from "./TodoTable";
-
-const URL = "api/ToDo";
+import { todoService } from "../../services/todo_service";
 
 const TodoApp = () => {
   const [todos, setTodos] = useState([]);
+  const [pending, setPending] = useState(true);
 
-  // useEffect(() => {
-  //   fetch(URL)
-  //     .then((response) => response.json())
-  //     .then((data) => setTodos(data))
-  //     .catch((error) => console.error("Error fetching todos:", error));
-  // }, []);
+  useEffect(() => {
+    getTodos();
+  }, []);
 
-  const adddf = (text) => {
-    const newTodo = { id: Date.now(), text };
-    setTodos([...todos, newTodo]);
+  const getTodos = async () => {
+    const data = await todoService.getTodos();
+    setTodos(data.data);
+    setPending(false);
   };
 
   const addTodo = async () => {
@@ -30,44 +28,32 @@ const TodoApp = () => {
     const todoPriority = parseInt(todoPriorityElement.value);
     const todoDescription = todoDescriptionElement.value;
 
-    const headers = new Headers();
-    headers.set("Content-Type", "application/json");
-
-    const todoItem = JSON.stringify({
+    const todoItemRaw = {
       name: todoTitle,
       priority: todoPriority,
       description: todoDescription,
-    });
-
-    const options = {
-      method: "Post",
-      headers: headers,
-      body: todoItem,
     };
-    const response = await fetch(URL, options)
-      .then((response) => {
-        if (response.ok) {
-          console.log("created todo");
-          // Clear the fields
-          todoTitleElement.value = "";
-          todoPriorityElement.value = "1";
-          todoDescriptionElement.value = "";
+    const todoItem = JSON.stringify(todoItemRaw);
 
-          // todos.push(todoItem);
-          // setTodos(todos.slice());
-        } else {
-          console.log("error not created todo");
-          // throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const description = data.description;
-        console.log(description);
-      })
-      .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error);
-      });
+    const response = await todoService.createTodo(todoItem);
+    if (response)
+      if (response.status !== 200) {
+        console.log("error not created todo");
+        console.log(response.data.description);
+      } else {
+        console.log("created todo");
+        console.log(response.data.description);
+
+        // Очистка полей
+        todoTitleElement.value = "";
+        todoPriorityElement.value = "1";
+        todoDescriptionElement.value = "";
+        // todos.push(todoItem);
+        // setTodos(todos.slice());
+        // setTodos([...todos, todoItemRaw]);
+        // console.log(todos);
+        getTodos();
+      }
   };
 
   const deleteTodo = (id) => {
@@ -78,8 +64,9 @@ const TodoApp = () => {
     <div>
       <h1>Todo App</h1>
       <TodoForm addTodo={addTodo} />
-      <TodoList todos={todos} deleteTodo={deleteTodo} />
-      <TodoTable />
+      <br />
+      {/* <TodoList todos={todos} deleteTodo={deleteTodo} /> */}
+      <TodoTable data={todos} pending={pending} />
     </div>
   );
 };

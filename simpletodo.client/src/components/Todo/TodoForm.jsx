@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { todoService } from "../../services/todo_service";
 
 const TodoForm = ({ addTodo }) => {
   const [priorities, setPriorities] = useState([]);
@@ -6,21 +7,8 @@ const TodoForm = ({ addTodo }) => {
 
   // Метод для загрузки приоритетов
   async function fetchPriorities() {
-    const URL = "api/ToDo/priorities";
-    const options = {
-      method: "GET",
-      headers: new Headers(),
-    };
-    try {
-      const response = await fetch(URL, options);
-      if (!response.ok) {
-        throw new Error("Ошибка при загрузке приоритетов");
-      }
-      const data = await response.json();
-      setPriorities(data);
-    } catch (error) {
-      console.error(error.message);
-    }
+    const data = await todoService.getPriorities();
+    setPriorities(data);
   }
 
   useEffect(() => {
@@ -28,24 +16,24 @@ const TodoForm = ({ addTodo }) => {
   }, []);
 
   return (
-    <div class="todo-form">
-      <p class="todo-form-title">Create todo</p>
+    <div className="todo-form">
+      <p className="todo-form-title">Create todo</p>
 
-      <div class="todo-title">
-        <p class="todo-form-label">Task title</p>
+      <div className="todo-title">
+        <p className="todo-form-label">Task title</p>
         <input
           id="todo-title-id"
-          class="inputTodoCreation"
+          className="inputTodoCreation"
           type="text"
           placeholder="Enter title..."
         />
       </div>
 
-      <div class="todo-priority">
-        <p class="todo-form-label">Task complexity</p>
+      <div className="todo-priority">
+        <p className="todo-form-label">Task complexity</p>
         <select
           id="todo-priority-id"
-          class="selectTodoCreation"
+          className="selectTodoCreation"
           value={selectedPriority}
           onChange={(e) => setSelectedPriority(e.target.value)}
         >
@@ -58,11 +46,11 @@ const TodoForm = ({ addTodo }) => {
         </select>
       </div>
 
-      <div class="todo-description">
-        <p class="todo-form-label">Task description</p>
+      <div className="todo-description">
+        <p className="todo-form-label">Task description</p>
         <textarea
           id="todo-description-id"
-          class="textareaTodoCreation"
+          className="textareaTodoCreation"
           placeholder="Enter text..."
         />
       </div>
