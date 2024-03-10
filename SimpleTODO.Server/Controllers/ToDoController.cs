@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.MSIdentity.Shared;
 using SimpleTODO.Domain.Enum;
+using SimpleTODO.Domain.Filters.Task;
 using SimpleTODO.Domain.ViewModels.Task;
 using SimpleTODO.Service.Interfaces;
 using System.ComponentModel.DataAnnotations;
@@ -18,7 +19,7 @@ public class ToDoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateTaskViewModel model)
+    public async Task<IActionResult> CreateTask(CreateTaskViewModel model)
     {
         var response = await _taskService.CreateTask(model);
         if (response.StatusCode == Domain.Enum.StatusCode.OK)
@@ -28,12 +29,18 @@ public class ToDoController : ControllerBase
         return BadRequest(new { description = response.Description });
     }
 
-    // [HttpPost]
-    // [Route("task-handler")]
-    [HttpGet]
-    public async Task<IResult> TaskHandler()
+    [HttpPost]
+    [Route("task-handler")]
+    public async Task<IResult> TaskHandler(TaskFilter model)
     {
-        var response = await _taskService.GetTasks();
+        var response = await _taskService.GetTasks(model);
+        return Results.Json(new { data = response.Data });
+    }
+
+    [HttpGet]
+    public async Task<IResult> GetAllTasks()
+    {
+        var response = await _taskService.GetAllTasks();
         return Results.Json(new { data = response.Data });
     }
     [HttpGet]

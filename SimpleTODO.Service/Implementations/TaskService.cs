@@ -4,6 +4,7 @@ using SimpleTODO.DAL.Interfaces;
 using SimpleTODO.Domain.Entity;
 using SimpleTODO.Domain.Enum;
 using SimpleTODO.Domain.Extentions;
+using SimpleTODO.Domain.Filters.Task;
 using SimpleTODO.Domain.Response;
 using SimpleTODO.Domain.ViewModels.Task;
 using SimpleTODO.Service.Interfaces;
@@ -70,11 +71,46 @@ public class TaskService : ITaskService
         }
     }
 
-    public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetTasks()
+    public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetAllTasks()
     {
         try
         {
             var tasks = await _taskRepository.GetAll()
+                .Select(x => new TaskViewModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    IsDone = x.IsDone == true ? "Выполнено" : "Не выполнено",
+                    Priority = x.Priority.GetDisplayName(),
+                    Created = x.Created.ToLongDateString()
+                })
+                .ToListAsync();
+
+            return new BaseResponse<IEnumerable<TaskViewModel>>()
+            {
+                Data = tasks,
+                StatusCode = StatusCode.OK
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"[TaskService.Create]: {ex.Message}");
+            return new BaseResponse<IEnumerable<TaskViewModel>>()
+            {
+                Description = $"{ex.Message}",
+                StatusCode = StatusCode.InternalServerError
+            };
+        }
+    }
+
+    public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetTasks(TaskFilter filter)
+    {
+        try
+        {
+            var tasks = await _taskRepository.GetAll()
+                .WhereIf(!string.IsNullOrEmpty(filter.Name), x => x.Name.Contains(filter.Name))
+                .WhereIf(filter.Priority.HasValue, x => x.Priority == filter.Priority)
                 .Select(x => new TaskViewModel()
                 {
                     Id = x.Id,
