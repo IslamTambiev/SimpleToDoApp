@@ -7,11 +7,11 @@ import TodoApp from "./components/Todo/Todos";
 function AppRoutes() {
   const element = useRoutes([
     {
-      path: "/todos",
+      path: "/",
       element: <TodoApp />,
     },
     {
-      path: "/",
+      path: "/wheather",
       element: <Wheather />,
     },
     {
@@ -28,12 +28,12 @@ function App() {
       <nav style={{ margin: 10 }}>
         <ul>
           <li>
-            <Link to="/todos" style={{ padding: 5 }}>
+            <Link to="/" style={{ padding: 5 }}>
               Todos
             </Link>
           </li>
           <li>
-            <Link to="/" style={{ padding: 5 }}>
+            <Link to="/wheather" style={{ padding: 5 }}>
               Wheather
             </Link>
           </li>
