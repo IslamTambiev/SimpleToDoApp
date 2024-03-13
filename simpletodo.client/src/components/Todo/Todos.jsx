@@ -13,7 +13,19 @@ const TodoApp = () => {
   }, []);
 
   const getTodos = async () => {
-    const data = await todoService.getTodos();
+    const todoTitleElement = document.querySelector("#get-todo-title-id");
+    const todoPriorityElement = document.querySelector("#get-todo-priority-id");
+
+    const todoTitle = todoTitleElement.value;
+    const todoPriority = parseInt(todoPriorityElement.value);
+
+    const todoItemRaw = {
+      name: todoTitle,
+      priority: todoPriority,
+    };
+    const todoSearchData = JSON.stringify(todoItemRaw);
+
+    const data = await todoService.getTodos(todoSearchData);
     setTodos(data.data);
     setPending(false);
   };
@@ -56,17 +68,16 @@ const TodoApp = () => {
       }
   };
 
-  const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
+  // const deleteTodo = (id) => {
+  //   setTodos(todos.filter((todo) => todo.id !== id));
+  // };
 
   return (
     <div>
       <h1>Todo App</h1>
       <TodoForm addTodo={addTodo} />
-      <br />
       {/* <TodoList todos={todos} deleteTodo={deleteTodo} /> */}
-      <TodoTable data={todos} pending={pending} />
+      <TodoTable data={todos} pending={pending} getTodos={getTodos} />
     </div>
   );
 };
