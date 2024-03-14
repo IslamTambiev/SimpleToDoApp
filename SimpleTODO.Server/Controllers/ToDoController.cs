@@ -37,6 +37,18 @@ public class ToDoController : ControllerBase
         return Results.Json(new { data = response.Data });
     }
 
+    [HttpPost]
+    [Route("complete-task")]
+    public async Task<IActionResult> CompleteTask(long id)
+    {
+        var response = await _taskService.CompleteTask(id);
+        if (response.StatusCode == Domain.Enum.StatusCode.OK)
+        {
+            return Ok(new { description = response.Description });
+        }
+        return BadRequest(new { description = response.Description });
+    }
+
     [HttpGet]
     public async Task<IResult> GetAllTasks()
     {

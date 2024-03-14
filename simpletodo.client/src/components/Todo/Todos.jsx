@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from "react";
 import TodoForm from "./TodoForm";
-import TodoList from "./TodoList";
+// import TodoList from "./TodoList";
 import TodoTable from "./TodoTable";
 import { todoService } from "../../services/todo_service";
+import { Toast } from "../../services/notifications";
+
+// MySwal.fire({
+//   title: <p>Hello World</p>,
+//   didOpen: () => {
+//     // `MySwal` is a subclass of `Swal` with all the same instance & static methods
+//     MySwal.showLoading();
+//   },
+// }).then(() => {
+//   return MySwal.fire(<p>Shorthand works too</p>);
+// });
 
 const TodoApp = () => {
   const [todos, setTodos] = useState([]);
@@ -52,6 +63,10 @@ const TodoApp = () => {
       if (response.status !== 200) {
         console.log("error not created todo");
         console.log(response.data.description);
+        await Toast.fire({
+          icon: "error",
+          title: response.data.description,
+        });
       } else {
         console.log("created todo");
         console.log(response.data.description);
@@ -65,6 +80,10 @@ const TodoApp = () => {
         // setTodos([...todos, todoItemRaw]);
         // console.log(todos);
         getTodos();
+        await Toast.fire({
+          icon: "success",
+          title: response.data.description,
+        });
       }
   };
 

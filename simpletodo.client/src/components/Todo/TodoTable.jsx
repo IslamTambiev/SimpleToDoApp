@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { CustomLoader, customStyles } from "./tableStyles";
 import { todoService } from "../../services/todo_service";
+import { Toast, swalWithBootstrapButtons } from "../../services/notifications";
 
 const TodoTable = ({ data, pending, getTodos }) => {
   const [priorities, setPriorities] = useState([]);
@@ -17,6 +18,27 @@ const TodoTable = ({ data, pending, getTodos }) => {
   useEffect(() => {
     fetchPriorities();
   }, []);
+
+  const handleComplete = async (id) => {
+    swalWithBootstrapButtons.fire().then(async (result) => {
+      if (result.isConfirmed) {
+        const response = await todoService.completeTodo(id);
+        if (response)
+          if (response.status !== 200) {
+            await Toast.fire({
+              icon: "error",
+              title: response.data.description,
+            });
+          } else {
+            getTodos();
+            await Toast.fire({
+              icon: "success",
+              title: response.data.description,
+            });
+          }
+      }
+    });
+  };
 
   const columns = [
     // {
@@ -59,7 +81,7 @@ const TodoTable = ({ data, pending, getTodos }) => {
         <button
           className="btn btn-success"
           onClick={() => {
-            todoService.completeTodo(row.id);
+            handleComplete(row.id);
           }}
         >
           Выполнить

@@ -47,6 +47,7 @@ class TodoService {
       console.error("Error creating todo:", error);
     }
   }
+
   async getPriorities() {
     try {
       const response = await axios.get(URL + "/priorities");
@@ -56,6 +57,24 @@ class TodoService {
       return response.data;
     } catch (error) {
       console.error("Error fetching priorities:", error);
+    }
+  }
+
+  async completeTodo(id) {
+    try {
+      const response = await axios
+        .post(URL + "/complete-task", null, {
+          params: { id: id },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      return response;
+    } catch (error) {
+      console.error("Error completing todo:", error);
     }
   }
 }
