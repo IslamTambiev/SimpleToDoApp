@@ -34,6 +34,7 @@ const TodoForm = ({ addTodo }) => {
         <select
           id="todo-priority-id"
           className="selectTodoCreation"
+          title="Выберите приоритет"
           value={selectedPriority}
           onChange={(e) => setSelectedPriority(e.target.value)}
         >

@@ -144,7 +144,7 @@ public class TaskService : ITaskService
         try
         {
             var tasks = await _taskRepository.GetAll()
-                .Where(x =>! x.IsDone)
+                //.Where(x =>! x.IsDone)
                 .WhereIf(!string.IsNullOrEmpty(filter.Name), x => x.Name.Contains(filter.Name))
                 .WhereIf(filter.Priority.HasValue, x => x.Priority == filter.Priority)
                 .Select(x => new TaskViewModel()

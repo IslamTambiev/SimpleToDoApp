@@ -91,6 +91,15 @@ const TodoTable = ({ data, pending, getTodos }) => {
     },
   ];
 
+  // const conditionalRowStyles = [
+  //   {
+  //     when: (row) => row.isDone === "Выполнено",
+  //     style: {
+  //       visibility: "hidden",
+  //     },
+  //   },
+  // ];
+
   return (
     <div>
       <div className="row m-2">
@@ -104,6 +113,7 @@ const TodoTable = ({ data, pending, getTodos }) => {
             onChange={() => {
               getTodos();
             }}
+            placeholder="Введите название задачи"
           />
         </div>
         <div className="form-group col-sm-6">
@@ -111,6 +121,7 @@ const TodoTable = ({ data, pending, getTodos }) => {
           <select
             id="get-todo-priority-id"
             className="form-control"
+            title="Выберите приоритет"
             value={selectedPriority}
             onChange={(e) => {
               setSelectedPriority(e.target.value);
@@ -132,12 +143,13 @@ const TodoTable = ({ data, pending, getTodos }) => {
       <DataTable
         title="Список задач"
         columns={columns}
-        data={data}
+        data={data.filter((d) => d.isDone === "Не выполнено")}
         highlightOnHover
         pagination
         responsive
         striped
         customStyles={customStyles}
+        // conditionalRowStyles={conditionalRowStyles}
         theme="dark"
         progressComponent={<CustomLoader />}
         progressPending={pending}

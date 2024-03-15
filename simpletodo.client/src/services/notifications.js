@@ -23,7 +23,7 @@ const Toast = MySwal.mixin({
 
 const swalWithBootstrapButtons = MySwal.mixin({
   customClass: {
-    confirmButton: "btn btn-success ",
+    confirmButton: "btn btn-success",
   },
   buttonsStyling: false,
   background: "#222",
