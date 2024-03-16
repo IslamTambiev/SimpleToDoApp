@@ -50,6 +50,14 @@ public class ToDoController : ControllerBase
     }
 
     [HttpGet]
+    [Route("get-completed-tasks")]
+    public async Task<IResult> GetCompletedTasks()
+    {
+        var result = await _taskService.GetCompletedTasks();
+        return Results.Json(new { data = result.Data });
+    }
+
+    [HttpGet]
     public async Task<IResult> GetAllTasks()
     {
         var response = await _taskService.GetAllTasks();

@@ -31,6 +31,18 @@ class TodoService {
     }
   }
 
+  async getCompletedTodos() {
+    try {
+      const response = await axios.get(URL + "/get-completed-tasks");
+      if (response.status !== 200) {
+        throw new Error("Ошибка при загрузке задач");
+      }
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
   async createTodo(todoItem) {
     try {
       const response = await axios
@@ -78,4 +90,5 @@ class TodoService {
     }
   }
 }
+
 export const todoService = new TodoService();

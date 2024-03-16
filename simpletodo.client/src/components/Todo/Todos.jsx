@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TodoForm from "./TodoForm";
-// import TodoList from "./TodoList";
+import TodoList from "./TodoList";
 import TodoTable from "./TodoTable";
 import { todoService } from "../../services/todo_service";
 import { Toast } from "../../services/notifications";
@@ -92,11 +92,19 @@ const TodoApp = () => {
   // };
 
   return (
-    <div>
+    <div className="m-3">
       <h1>Todo App</h1>
-      <TodoForm addTodo={addTodo} />
-      {/* <TodoList todos={todos} deleteTodo={deleteTodo} /> */}
-      <TodoTable data={todos} pending={pending} getTodos={getTodos} />
+      <div className="row">
+        <div className="col">
+          <TodoForm addTodo={addTodo} />
+        </div>
+        <div className="col">
+          <TodoList todos={todos} />
+        </div>
+        <div className="col">
+          <TodoTable data={todos} pending={pending} getTodos={getTodos} />
+        </div>
+      </div>
     </div>
   );
 };
